@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'recommend.apps.RecommendConfig',
-	'search.apps.SearchConfig',
-	# TODO: Add QA module setting
-	#	'weixin.apps.WeixinConfig',
+    'recommend.apps.RecommendConfig',
+    'search.apps.SearchConfig',
+    # TODO: Add QA module setting
+    #    'qa.apps.QaConfig',
 ]
 
 MIDDLEWARE = [
