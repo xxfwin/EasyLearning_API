@@ -25,7 +25,7 @@ SECRET_KEY = '^ibc^kdq1&$-5(^)%$6gs3^90ikm@o9i1(+naw0*&pjg+xd#ff'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['xenoeye.org','127.0.0.1']
 
 
 # Application definition
@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'recommend.apps.RecommendConfig',
+	'search.apps.SearchConfig',
+	# TODO: Add QA module setting
+	#	'weixin.apps.WeixinConfig',
 ]
 
 MIDDLEWARE = [
@@ -73,10 +77,26 @@ WSGI_APPLICATION = 'EasyLearning_API.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+    # 'default': {
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+
+    'moodle': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'moodle',
+        'USER': 'root',
+        'PASSWORD': '3365375x',
+        'HOST': '127.0.0.1',
+        'PORT': '3306'
     }
 }
 
@@ -118,3 +138,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
