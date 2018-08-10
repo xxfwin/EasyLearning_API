@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
 
-    'moodle': {
+    'datasrc': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'moodle',
         'USER': 'root',
