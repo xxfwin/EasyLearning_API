@@ -19,11 +19,24 @@ from lib.CF import CF
 
 import time
 
+# shared vars
+recom = None
+
 def index(request):
     return HttpResponse("This the API entry for recommend module.")
 
 
 def getRecommendCourses(request):
+    global recom
+    if recom == None:
+        updateRecommendCourses(None)
+    recom.recommendByUser(int(request.GET.get('userid')))
+    
+    
+    return JsonResponse({"status":"0","data":recom.recommendList})
+    
+def updateRecommendCourses(request):
+    global recom
     # Dest sql ->> select userid,courseid, count(courseid) from mdl_logstore_standard_log where eventname = '\\core\\event\\course_viewed' and userid != 0 group by userid,courseid;
     records = models.MdlLogstoreStandardLog.objects.using('datasrc').filter(eventname__exact='\\core\\event\\course_viewed').exclude(userid__exact=0).all().values_list("userid","courseid")
     ratingdata = records.annotate(sumcourse = Count('courseid')).values_list('userid','courseid','sumcourse')
@@ -37,17 +50,5 @@ def getRecommendCourses(request):
         courselist.append([course])
     for rating in ratingdata:
         ratinglist.append([rating[0], rating[1], rating[2]])
-        
-     
-    # -------------------------start recommend-------------------------------
-    start = time.clock()
     recom = CF(courselist, ratinglist, k=20)
-    recom.recommendByUser(int(request.GET.get('userid')))
-    print recom.recommendList
-    
-    
-    return JsonResponse({"status":"0","data":recom.recommendList})
-    
-def updateRecommendCourses(request):
-    
     return JsonResponse({"status":"0","data":"update completed!"})
