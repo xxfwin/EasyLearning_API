@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Create your models here.
 
-# Moodle Course info
+
+# Moodle Course table
 class MdlCourse(models.Model):
     id = models.BigAutoField(primary_key=True)
     category = models.BigIntegerField()
