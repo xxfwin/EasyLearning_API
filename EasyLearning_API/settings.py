@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '^ibc^kdq1&$-5(^)%$6gs3^90ikm@o9i1(+naw0*&pjg+xd#ff'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['xenoeye.org','127.0.0.1']
 
