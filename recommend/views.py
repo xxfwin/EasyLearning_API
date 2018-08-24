@@ -12,6 +12,9 @@ from django.db.models import Count
 
 # import models for search module
 from . import models
+# queryset to dict funtions
+from django.forms.models import model_to_dict
+
 # import CF model
 import sys
 sys.path.append('../')
@@ -32,8 +35,20 @@ def getRecommendCourses(request):
         updateRecommendCourses(None)
     recom.recommendByUser(int(request.GET.get('userid')))
     
+    # use recommend course id to query course info
+    courseids = []
+    for recommendinstance in recom.recommendList:
+        courseids.append(recommendinstance[1])
     
-    return JsonResponse({"status":"0","data":recom.recommendList})
+    courseinfo = models.MdlCourse.objects.using('datasrc').filter(id__in=courseids)
+    
+    returncourse = {}
+    for ci in courseinfo:
+        returncourse[model_to_dict(ci)['id']] = (model_to_dict(ci))
+    # courseinfo = model_to_dict(courseinfo)
+    
+    return JsonResponse({"status":"0","data":returncourse})
+    
     
 def updateRecommendCourses(request):
     global recom
