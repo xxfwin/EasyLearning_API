@@ -9,6 +9,8 @@ from django.http import JsonResponse
 
 # import models for search module
 from . import models
+# queryset to dict funtions
+from django.forms.models import model_to_dict
 
 # import Doc2Vec packages
 # initialize Dov2Vec model
@@ -56,8 +58,19 @@ def getSimilarCourses(request):
 
     sims = model_dm.docvecs.most_similar([inferred_vector_dm], topn=5)
     #return sims
+    courseids = []
+    for sim in sims:
+        courseids.append(sim[0])
     
-    return JsonResponse({"status":"0","data":sims})
+    courseinfo = models.MdlCourse.objects.using('datasrc').filter(id__in=courseids)
+    
+    returncourse = {}
+    for ci in courseinfo:
+        returncourse[model_to_dict(ci)['id']] = (model_to_dict(ci))
+    # courseinfo = model_to_dict(courseinfo)
+    
+    return JsonResponse({"status":"0","data":returncourse})
+    
 
 def updateCourses(request):
     global model_dm
